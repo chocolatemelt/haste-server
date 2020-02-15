@@ -4,7 +4,6 @@
   "keyLength": 10,
   "maxLength": 400000,
   "staticMaxAge": 86400,
-  "recompressStaticAssets": true,
   "keyGenerator": {
     "type": "phonetic"
   },
