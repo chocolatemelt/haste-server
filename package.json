@@ -24,7 +24,7 @@
     "redis-url": "0.1.0",
     "st": "^1.2.2",
     "uglify-js": "3.1.6",
-    "winston": "0.6.2"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "mocha": "^4.0.1"
