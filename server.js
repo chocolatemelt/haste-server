@@ -2,35 +2,18 @@ var http = require('http');
 var fs = require('fs');
 
 var uglify = require('uglify-js');
-var winston = require('winston');
 var connect = require('connect');
 var route = require('connect-route');
 var connect_st = require('st');
 var connect_rate_limit = require('connect-ratelimit');
 
 var DocumentHandler = require('./lib/document_handler');
+const logger = require('./lib/logger');
 
 // Load the configuration and set some defaults
 var config = JSON.parse(fs.readFileSync('./config.js', 'utf8'));
 config.port = process.env.PORT || config.port || 7777;
 config.host = process.env.HOST || config.host || 'localhost';
-
-// Set up the logger
-if (config.logging) {
-  try {
-    winston.remove(winston.transports.Console);
-  } catch(e) {
-    /* was not present */
-  }
-
-  var detail, type;
-  for (var i = 0; i < config.logging.length; i++) {
-    detail = config.logging[i];
-    type = detail.type;
-    delete detail.type;
-    winston.add(winston.transports[type], detail);
-  }
-}
 
 // build the store from the config on-demand - so that we don't load it
 // for statics
@@ -63,7 +46,7 @@ if (config.recompressStaticAssets) {
       var orig_code = fs.readFileSync('./static/' + item, 'utf8');
 
       fs.writeFileSync('./static/' + dest, uglify.minify(orig_code).code, 'utf8');
-      winston.info('compressed ' + item + ' into ' + dest);
+      logger.info('compressed ' + item + ' into ' + dest);
     }
   }
 }
@@ -73,14 +56,14 @@ var path, data;
 for (var name in config.documents) {
   path = config.documents[name];
   data = fs.readFileSync(path, 'utf8');
-  winston.info('loading static document', { name: name, path: path });
+  logger.info('loading static document', { name: name, path: path });
   if (data) {
     preferredStore.set(name, data, function(cb) {
-      winston.debug('loaded static document', { success: cb });
+      logger.info('loaded static document', { success: cb });
     }, true);
   }
   else {
-    winston.warn('failed to load static document', { name: name, path: path });
+    info.warn('failed to load static document', { name: name, path: path });
   }
 }
 
@@ -152,4 +135,4 @@ app.use(connect_st({
 
 http.createServer(app).listen(config.port, config.host);
 
-winston.info('listening on ' + config.host + ':' + config.port);
+logger.info('listening on ' + config.host + ':' + config.port);
