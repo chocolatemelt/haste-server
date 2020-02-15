@@ -1,7 +1,6 @@
 var http = require('http');
 var fs = require('fs');
 
-var uglify = require('uglify-js');
 var connect = require('connect');
 var route = require('connect-route');
 var connect_st = require('st');
