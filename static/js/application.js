@@ -6,15 +6,6 @@ var haste_document = function() {
   this.locked = false;
 };
 
-// Escapes HTML tag characters
-haste_document.prototype.htmlEscape = function(s) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/>/g, '&gt;')
-    .replace(/</g, '&lt;')
-    .replace(/"/g, '&quot;');
-};
-
 // Get this document from the server and lock it here
 haste_document.prototype.load = function(key, callback, lang) {
   var _this = this;
@@ -28,7 +19,7 @@ haste_document.prototype.load = function(key, callback, lang) {
       try {
         var high;
         if (lang === 'txt') {
-          high = { value: _this.htmlEscape(res.data) };
+          high = { value: res.data };
         }
         else if (lang) {
           high = hljs.highlight(lang, res.data);
@@ -106,8 +97,7 @@ var haste = function(appName, options) {
 
 // Set the page title - include the appName
 haste.prototype.setTitle = function(ext) {
-  var title = ext ? this.appName + ' - ' + ext : this.appName;
-  document.title = title;
+  document.title = ext ? ext : this.appName;
 };
 
 // Show a message box
