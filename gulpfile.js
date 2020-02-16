@@ -34,7 +34,8 @@ function css(cb) {
 function js(cb) {
   gulp
     .src([
-      "./static/js/application.js"
+      "./static/js/application.js",
+      "./static/js/scripts.js"
     ])
     .pipe(concat("scripts.min.js"))
     .pipe(uglify())
