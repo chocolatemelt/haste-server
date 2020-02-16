@@ -203,7 +203,11 @@ haste.prototype.loadDocument = function(key) {
   _this.doc = new haste_document();
   _this.doc.load(parts[0], function(ret) {
     if (ret) {
-      _this.$code.html(ret.value);
+      if (ret.language === 'txt') {
+        _this.$code.text(ret.value);
+      } else {
+        _this.$code.html(ret.value);
+      }
       _this.setTitle(ret.key);
       _this.fullKey();
       _this.$textarea.val('').hide();
