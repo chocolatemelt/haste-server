@@ -42,10 +42,24 @@ function js(cb) {
   cb();
 }
 
+function jp(cb) {
+  gulp
+    .src([
+      "./jp/adj_i.txt",
+      "./jp/adj_na.txt"
+    ])
+    .pipe(concat("adj.txt", {
+      newLine: ''
+    }))
+    .pipe(gulp.dest("./jp"))
+  cb();
+}
+
 function clean(cb) {
   del([
     "./static/scripts.min.js",
-    "./static/styles.min.css"
+    "./static/styles.min.css",
+    "./jp/adj.txt"
   ]);
   cb();
 }
@@ -53,6 +67,7 @@ function clean(cb) {
 exports = Object.assign(exports, {
   css,
   js,
+  jp,
   clean,
-  default: gulp.series(clean, gulp.parallel(css, js))
+  default: gulp.series(clean, gulp.parallel(css, js, jp))
 });
