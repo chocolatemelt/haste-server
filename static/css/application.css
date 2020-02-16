@@ -12,12 +12,12 @@ body {
 /* textarea */
 
 textarea {
-	background: transparent;
+	background-color: #1D252C;
 	border: 0px;
 	color: #6B8397;
 	padding: 0px;
 	width: 100%;
-	height: calc(100% - 40px);
+	height: 100%;
 	font-family: monospace;
 	outline: none;
 	resize: none;
